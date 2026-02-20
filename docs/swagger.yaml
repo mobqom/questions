@@ -1,0 +1,28 @@
+basePath: /api/v1
+consumes:
+- application/json
+host: localhost:8081
+info:
+  contact: {}
+  description: API для работы с вопросами
+  title: Questions API
+  version: "1.0"
+paths:
+  /api/v1/find-all:
+    get:
+      description: Возвращает простой текст, чтобы проверить, что сервис отвечает
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Hello, World!
+          schema:
+            type: string
+      summary: Проверка работоспособности
+      tags:
+      - health
+produces:
+- application/json
+schemes:
+- http
+swagger: "2.0"
