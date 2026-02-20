@@ -1,5 +1,7 @@
 package config
 
+import "os"
+
 type AppConfig struct {
 	DbHost string
 	DbPort string
@@ -8,12 +10,19 @@ type AppConfig struct {
 	DbName string
 }
 
+func getEnv(key, def string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return def
+}
+
 func Init() *AppConfig {
 	return &AppConfig{
-		DbHost: "localhost",
-		DbPort: "5432",
-		DbUser: "user",
-		DbPass: "password",
-		DbName: "questions",
+		DbHost: getEnv("DB_HOST", "localhost"),
+		DbPort: getEnv("DB_PORT", "5432"),
+		DbUser: getEnv("DB_USER", "user"),
+		DbPass: getEnv("DB_PASS", "password"),
+		DbName: getEnv("DB_NAME", "questions"),
 	}
 }

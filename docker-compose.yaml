@@ -28,7 +28,11 @@ services:
     ports:
       - "8081:8081"
     environment:
-      DATABASE_URL: postgres://user:password@db:5432/questions?sslmode=disable
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_USER: user
+      DB_PASS: password
+      DB_NAME: questions
     restart: always
 
 volumes:
