@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/mobqom/questions/internal/domain"
@@ -16,10 +17,12 @@ func GetQuestions(db *gorm.DB) []domain.Question {
 }
 
 func AddQuestion(db *gorm.DB, question dto.AddQuestionDto) domain.Question {
-	//ctx := context.Background()
+	ctx := context.Background()
 	fmt.Println(question)
 	q := domain.Question{Content: question.Content, Game: question.Game}
-	err := db.Create(&q)
+
+	err := gorm.G[domain.Question](db).Create(ctx, &q)
+
 	if err != nil {
 		fmt.Println(err)
 		return domain.Question{}
