@@ -18,23 +18,114 @@
     "host": "localhost:8081",
     "basePath": "/api/v1",
     "paths": {
-        "/api/v1/find-all": {
-            "get": {
-                "description": "Возвращает простой текст, чтобы проверить, что сервис отвечает",
+        "/add-question": {
+            "post": {
+                "description": "Создает новый вопрос в базе данных",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
-                    "text/plain"
+                    "application/json"
                 ],
                 "tags": [
-                    "health"
+                    "questions"
                 ],
-                "summary": "Проверка работоспособности",
+                "summary": "Добавить новый вопрос",
+                "parameters": [
+                    {
+                        "description": "Объект вопроса",
+                        "name": "question",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_mobqom_questions_internal_dto.AddQuestionDto"
+                        }
+                    }
+                ],
                 "responses": {
-                    "200": {
-                        "description": "Hello, World!",
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Question"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body",
                         "schema": {
                             "type": "string"
                         }
                     }
+                }
+            }
+        },
+        "/find-all": {
+            "get": {
+                "description": "Возвращает список всех вопросов из базы данных",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "questions"
+                ],
+                "summary": "Получить все вопросы",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Question"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "github_com_mobqom_questions_internal_domain.Question": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "game": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_mobqom_questions_internal_dto.AddQuestionDto": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "game": {
+                    "type": "string"
+                }
+            }
+        },
+        "gorm.DeletedAt": {
+            "type": "object",
+            "properties": {
+                "time": {
+                    "type": "string"
+                },
+                "valid": {
+                    "description": "Valid is true if Time is not NULL",
+                    "type": "boolean"
                 }
             }
         }

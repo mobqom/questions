@@ -28,7 +28,7 @@ func Run(cfg *config.AppConfig) {
 	))
 
 	// API routes
-	r.Mount("/api/v1", controller.HttpController())
+	r.Mount("/api/v1", controller.HttpController(dbConn))
 
 	http.ListenAndServe(":8081", r)
 }
