@@ -26,6 +26,7 @@ import (
 	"github.com/mobqom/questions/migrations"
 	optionsv1 "github.com/mobqom/questions/proto/v1/option"
 	questionv1 "github.com/mobqom/questions/proto/v1/question"
+	"google.golang.org/grpc/reflection"
 
 	_ "github.com/mobqom/questions/docs"
 )
@@ -64,6 +65,7 @@ func Run(cfg *config.AppConfig) {
 	grpcSrv := grpc.NewServer()
 	questionv1.RegisterQuestionServiceServer(grpcSrv, grpcController.NewQuestionServer(uc))
 	optionsv1.RegisterOptionsServiceServer(grpcSrv, grpcController.NewOptionsServer(ucOpt))
+	reflection.Register(grpcSrv)
 
 	addr := fmt.Sprintf(":%s", cfg.Port)
 	srv := &http.Server{
