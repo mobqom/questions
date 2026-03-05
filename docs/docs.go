@@ -179,6 +179,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/questions/find-by-game": {
+            "get": {
+                "description": "Возвращает список всех вопросов для конкретной игры",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "questions"
+                ],
+                "summary": "Получить вопросы по ID игры",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID игры",
+                        "name": "gameId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Question"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/questions/random": {
             "get": {
                 "description": "Возвращает случайный вопрос из базы данных",
@@ -189,6 +221,15 @@ const docTemplate = `{
                     "questions"
                 ],
                 "summary": "Получить случайный вопрос",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID игры",
+                        "name": "gameId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",

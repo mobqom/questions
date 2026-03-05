@@ -9,6 +9,7 @@ func RegisterRoutes(r chi.Router, qc *QuestionController, oc *OptionsController)
 		r.Get("/find-all", qc.FindAll)
 		r.Post("/add-question", qc.AddQuestion)
 		r.Get("/random", qc.FindRandomQuestion)
+		r.Get("/find-by-game", qc.FindByGameId)
 	})
 
 	r.Route("/options", func(r chi.Router) {

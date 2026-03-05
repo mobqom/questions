@@ -174,9 +174,36 @@ paths:
       summary: Получить все вопросы
       tags:
       - questions
+  /questions/find-by-game:
+    get:
+      description: Возвращает список всех вопросов для конкретной игры
+      parameters:
+      - description: ID игры
+        in: query
+        name: gameId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_mobqom_questions_internal_domain.Question'
+            type: array
+      summary: Получить вопросы по ID игры
+      tags:
+      - questions
   /questions/random:
     get:
       description: Возвращает случайный вопрос из базы данных
+      parameters:
+      - description: ID игры
+        in: query
+        name: gameId
+        required: true
+        type: integer
       produces:
       - application/json
       responses:

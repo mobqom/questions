@@ -2,6 +2,7 @@ package httpController
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -76,14 +77,57 @@ func (c *QuestionController) AddQuestion(w http.ResponseWriter, r *http.Request)
 // @Description Возвращает случайный вопрос из базы данных
 // @Tags questions
 // @Produce json
+// @Param gameId query uint true "ID игры"
 // @Success 200 {object} domain.Question
 // @Router /questions/random [get]
 func (c *QuestionController) FindRandomQuestion(w http.ResponseWriter, r *http.Request) {
-	q, err := c.uc.FindRandomQuestion(r.Context())
+	gameIdStr := r.URL.Query().Get("gameId")
+	if gameIdStr == "" {
+		http.Error(w, "gameId is required", http.StatusBadRequest)
+		return
+	}
+
+	var gameId uint
+	if _, err := fmt.Sscanf(gameIdStr, "%d", &gameId); err != nil {
+		http.Error(w, "invalid gameId", http.StatusBadRequest)
+		return
+	}
+
+	q, err := c.uc.FindRandomQuestion(r.Context(), gameId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(q)
+}
+
+// FindByGameId godoc
+// @Summary Получить вопросы по ID игры
+// @Description Возвращает список всех вопросов для конкретной игры
+// @Tags questions
+// @Produce json
+// @Param gameId query uint true "ID игры"
+// @Success 200 {array} domain.Question
+// @Router /questions/find-by-game [get]
+func (c *QuestionController) FindByGameId(w http.ResponseWriter, r *http.Request) {
+	gameIdStr := r.URL.Query().Get("gameId")
+	if gameIdStr == "" {
+		http.Error(w, "gameId is required", http.StatusBadRequest)
+		return
+	}
+
+	var gameId uint
+	if _, err := fmt.Sscanf(gameIdStr, "%d", &gameId); err != nil {
+		http.Error(w, "invalid gameId", http.StatusBadRequest)
+		return
+	}
+
+	questions, err := c.uc.FindByGameId(r.Context(), gameId)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(questions)
 }

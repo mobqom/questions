@@ -16,5 +16,6 @@ type Question struct {
 type QuestionRepository interface {
 	FindAll(ctx context.Context) ([]Question, error)
 	Create(ctx context.Context, question *Question) error
-	FindRandomQuestion(ctx context.Context) (*Question, error)
+	FindRandomQuestion(ctx context.Context, gameId uint) (*Question, error)
+	FindByGameId(ctx context.Context, gameId uint) ([]Question, error)
 }
