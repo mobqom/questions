@@ -9,7 +9,7 @@ import (
 type Question struct {
 	gorm.Model
 	Content string    `gorm:"not null" json:"content"`
-	Game    string    `gorm:"type:varchar(255);not null" json:"game"`
+	Game    string    `gorm:"type:varchar(255);not null;index" json:"game"`
 	Options []Options `gorm:"foreignKey:QuestionID" json:"options,omitzero"`
 }
 
