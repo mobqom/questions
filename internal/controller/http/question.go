@@ -2,7 +2,6 @@ package httpController
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -77,19 +76,13 @@ func (c *QuestionController) AddQuestion(w http.ResponseWriter, r *http.Request)
 // @Description Возвращает случайный вопрос из базы данных
 // @Tags questions
 // @Produce json
-// @Param gameId query uint true "ID игры"
+// @Param gameId query string true "ID игры"
 // @Success 200 {object} domain.Question
 // @Router /questions/random [get]
 func (c *QuestionController) FindRandomQuestion(w http.ResponseWriter, r *http.Request) {
-	gameIdStr := r.URL.Query().Get("gameId")
-	if gameIdStr == "" {
+	gameId := r.URL.Query().Get("gameId")
+	if gameId == "" {
 		http.Error(w, "gameId is required", http.StatusBadRequest)
-		return
-	}
-
-	var gameId uint
-	if _, err := fmt.Sscanf(gameIdStr, "%d", &gameId); err != nil {
-		http.Error(w, "invalid gameId", http.StatusBadRequest)
 		return
 	}
 
@@ -107,19 +100,13 @@ func (c *QuestionController) FindRandomQuestion(w http.ResponseWriter, r *http.R
 // @Description Возвращает список всех вопросов для конкретной игры
 // @Tags questions
 // @Produce json
-// @Param gameId query uint true "ID игры"
+// @Param gameId query string true "ID игры"
 // @Success 200 {array} domain.Question
 // @Router /questions/find-by-game [get]
 func (c *QuestionController) FindByGameId(w http.ResponseWriter, r *http.Request) {
-	gameIdStr := r.URL.Query().Get("gameId")
-	if gameIdStr == "" {
+	gameId := r.URL.Query().Get("gameId")
+	if gameId == "" {
 		http.Error(w, "gameId is required", http.StatusBadRequest)
-		return
-	}
-
-	var gameId uint
-	if _, err := fmt.Sscanf(gameIdStr, "%d", &gameId); err != nil {
-		http.Error(w, "invalid gameId", http.StatusBadRequest)
 		return
 	}
 

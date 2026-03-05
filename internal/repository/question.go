@@ -27,17 +27,17 @@ func (r *questionRepository) Create(ctx context.Context, question *domain.Questi
 	return r.db.WithContext(ctx).Create(question).Error
 }
 
-func (r *questionRepository) FindRandomQuestion(ctx context.Context, gameId uint) (*domain.Question, error) {
+func (r *questionRepository) FindRandomQuestion(ctx context.Context, gameId string) (*domain.Question, error) {
 	var question domain.Question
-	if err := r.db.WithContext(ctx).Preload("Options").Where("game_id = ?", gameId).Order("RANDOM()").First(&question).Error; err != nil {
+	if err := r.db.WithContext(ctx).Preload("Options").Where("game = ?", gameId).Order("RANDOM()").First(&question).Error; err != nil {
 		return nil, err
 	}
 	return &question, nil
 }
 
-func (r *questionRepository) FindByGameId(ctx context.Context, gameId uint) ([]domain.Question, error) {
+func (r *questionRepository) FindByGameId(ctx context.Context, gameId string) ([]domain.Question, error) {
 	var questions []domain.Question
-	if err := r.db.WithContext(ctx).Preload("Options").Where("game_id = ?", gameId).Find(&questions).Error; err != nil {
+	if err := r.db.WithContext(ctx).Preload("Options").Where("game = ?", gameId).Find(&questions).Error; err != nil {
 		return nil, err
 	}
 	return questions, nil

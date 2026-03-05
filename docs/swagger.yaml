@@ -2,7 +2,7 @@ basePath: /api/v1
 consumes:
 - application/json
 definitions:
-  github_com_mobqom_questions_internal_domain.Options:
+  domain.Options:
     properties:
       content:
         type: string
@@ -17,7 +17,7 @@ definitions:
       updatedAt:
         type: string
     type: object
-  github_com_mobqom_questions_internal_domain.Question:
+  domain.Question:
     properties:
       content:
         type: string
@@ -31,12 +31,12 @@ definitions:
         type: integer
       options:
         items:
-          $ref: '#/definitions/github_com_mobqom_questions_internal_domain.Options'
+          $ref: '#/definitions/domain.Options'
         type: array
       updatedAt:
         type: string
     type: object
-  github_com_mobqom_questions_internal_dto.AddOptionDto:
+  dto.AddOptionDto:
     properties:
       content:
         type: string
@@ -46,7 +46,7 @@ definitions:
     - content
     - question_id
     type: object
-  github_com_mobqom_questions_internal_dto.AddQuestionDto:
+  dto.AddQuestionDto:
     properties:
       content:
         type: string
@@ -87,7 +87,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/github_com_mobqom_questions_internal_domain.Options'
+              $ref: '#/definitions/domain.Options'
             type: array
       summary: Получить варианты ответов для вопроса
       tags:
@@ -103,14 +103,14 @@ paths:
         name: option
         required: true
         schema:
-          $ref: '#/definitions/github_com_mobqom_questions_internal_dto.AddOptionDto'
+          $ref: '#/definitions/dto.AddOptionDto'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/github_com_mobqom_questions_internal_domain.Options'
+            $ref: '#/definitions/domain.Options'
         "400":
           description: Invalid request body
           schema:
@@ -128,7 +128,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/github_com_mobqom_questions_internal_domain.Options'
+              $ref: '#/definitions/domain.Options'
             type: array
       summary: Получить все варианты ответов
       tags:
@@ -144,14 +144,14 @@ paths:
         name: question
         required: true
         schema:
-          $ref: '#/definitions/github_com_mobqom_questions_internal_dto.AddQuestionDto'
+          $ref: '#/definitions/dto.AddQuestionDto'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/github_com_mobqom_questions_internal_domain.Question'
+            $ref: '#/definitions/domain.Question'
         "400":
           description: Invalid request body
           schema:
@@ -169,7 +169,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/github_com_mobqom_questions_internal_domain.Question'
+              $ref: '#/definitions/domain.Question'
             type: array
       summary: Получить все вопросы
       tags:
@@ -182,7 +182,7 @@ paths:
         in: query
         name: gameId
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -190,7 +190,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/github_com_mobqom_questions_internal_domain.Question'
+              $ref: '#/definitions/domain.Question'
             type: array
       summary: Получить вопросы по ID игры
       tags:
@@ -203,14 +203,14 @@ paths:
         in: query
         name: gameId
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/github_com_mobqom_questions_internal_domain.Question'
+            $ref: '#/definitions/domain.Question'
       summary: Получить случайный вопрос
       tags:
       - questions

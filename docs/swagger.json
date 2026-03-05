@@ -38,7 +38,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_mobqom_questions_internal_dto.AddOptionDto"
+                            "$ref": "#/definitions/dto.AddOptionDto"
                         }
                     }
                 ],
@@ -46,7 +46,7 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Options"
+                            "$ref": "#/definitions/domain.Options"
                         }
                     },
                     "400": {
@@ -74,7 +74,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Options"
+                                "$ref": "#/definitions/domain.Options"
                             }
                         }
                     }
@@ -106,7 +106,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Options"
+                                "$ref": "#/definitions/domain.Options"
                             }
                         }
                     }
@@ -133,7 +133,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_mobqom_questions_internal_dto.AddQuestionDto"
+                            "$ref": "#/definitions/dto.AddQuestionDto"
                         }
                     }
                 ],
@@ -141,7 +141,7 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Question"
+                            "$ref": "#/definitions/domain.Question"
                         }
                     },
                     "400": {
@@ -169,7 +169,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Question"
+                                "$ref": "#/definitions/domain.Question"
                             }
                         }
                     }
@@ -188,7 +188,7 @@
                 "summary": "Получить вопросы по ID игры",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "ID игры",
                         "name": "gameId",
                         "in": "query",
@@ -201,7 +201,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Question"
+                                "$ref": "#/definitions/domain.Question"
                             }
                         }
                     }
@@ -220,7 +220,7 @@
                 "summary": "Получить случайный вопрос",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "ID игры",
                         "name": "gameId",
                         "in": "query",
@@ -231,7 +231,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Question"
+                            "$ref": "#/definitions/domain.Question"
                         }
                     }
                 }
@@ -239,7 +239,7 @@
         }
     },
     "definitions": {
-        "github_com_mobqom_questions_internal_domain.Options": {
+        "domain.Options": {
             "type": "object",
             "properties": {
                 "content": {
@@ -262,7 +262,7 @@
                 }
             }
         },
-        "github_com_mobqom_questions_internal_domain.Question": {
+        "domain.Question": {
             "type": "object",
             "properties": {
                 "content": {
@@ -283,7 +283,7 @@
                 "options": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Options"
+                        "$ref": "#/definitions/domain.Options"
                     }
                 },
                 "updatedAt": {
@@ -291,7 +291,7 @@
                 }
             }
         },
-        "github_com_mobqom_questions_internal_dto.AddOptionDto": {
+        "dto.AddOptionDto": {
             "type": "object",
             "required": [
                 "content",
@@ -306,7 +306,7 @@
                 }
             }
         },
-        "github_com_mobqom_questions_internal_dto.AddQuestionDto": {
+        "dto.AddQuestionDto": {
             "type": "object",
             "required": [
                 "content",

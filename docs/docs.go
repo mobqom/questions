@@ -41,7 +41,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_mobqom_questions_internal_dto.AddOptionDto"
+                            "$ref": "#/definitions/dto.AddOptionDto"
                         }
                     }
                 ],
@@ -49,7 +49,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Options"
+                            "$ref": "#/definitions/domain.Options"
                         }
                     },
                     "400": {
@@ -77,7 +77,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Options"
+                                "$ref": "#/definitions/domain.Options"
                             }
                         }
                     }
@@ -109,7 +109,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Options"
+                                "$ref": "#/definitions/domain.Options"
                             }
                         }
                     }
@@ -136,7 +136,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_mobqom_questions_internal_dto.AddQuestionDto"
+                            "$ref": "#/definitions/dto.AddQuestionDto"
                         }
                     }
                 ],
@@ -144,7 +144,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Question"
+                            "$ref": "#/definitions/domain.Question"
                         }
                     },
                     "400": {
@@ -172,7 +172,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Question"
+                                "$ref": "#/definitions/domain.Question"
                             }
                         }
                     }
@@ -191,7 +191,7 @@ const docTemplate = `{
                 "summary": "Получить вопросы по ID игры",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "ID игры",
                         "name": "gameId",
                         "in": "query",
@@ -204,7 +204,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Question"
+                                "$ref": "#/definitions/domain.Question"
                             }
                         }
                     }
@@ -223,7 +223,7 @@ const docTemplate = `{
                 "summary": "Получить случайный вопрос",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "ID игры",
                         "name": "gameId",
                         "in": "query",
@@ -234,7 +234,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Question"
+                            "$ref": "#/definitions/domain.Question"
                         }
                     }
                 }
@@ -242,7 +242,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "github_com_mobqom_questions_internal_domain.Options": {
+        "domain.Options": {
             "type": "object",
             "properties": {
                 "content": {
@@ -265,7 +265,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_mobqom_questions_internal_domain.Question": {
+        "domain.Question": {
             "type": "object",
             "properties": {
                 "content": {
@@ -286,7 +286,7 @@ const docTemplate = `{
                 "options": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Options"
+                        "$ref": "#/definitions/domain.Options"
                     }
                 },
                 "updatedAt": {
@@ -294,7 +294,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_mobqom_questions_internal_dto.AddOptionDto": {
+        "dto.AddOptionDto": {
             "type": "object",
             "required": [
                 "content",
@@ -309,7 +309,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_mobqom_questions_internal_dto.AddQuestionDto": {
+        "dto.AddQuestionDto": {
             "type": "object",
             "required": [
                 "content",
