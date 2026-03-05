@@ -1,10 +1,20 @@
 package domain
 
-import "gorm.io/gorm"
+import (
+	"context"
+
+	"gorm.io/gorm"
+)
 
 type Question struct {
 	gorm.Model
-	Content string    `gorm:"not null"`
-	Game    string    `gorm:"type:varchar(255);not null"`
-	Options []Options `gorm:"foreignKey:QuestionID"`
+	Content string    `gorm:"not null" json:"content"`
+	Game    string    `gorm:"type:varchar(255);not null" json:"game"`
+	Options []Options `gorm:"foreignKey:QuestionID" json:"options,omitzero"`
+}
+
+type QuestionRepository interface {
+	FindAll(ctx context.Context) ([]Question, error)
+	Create(ctx context.Context, question *Question) error
+	FindRandomQuestion(ctx context.Context) (*Question, error)
 }

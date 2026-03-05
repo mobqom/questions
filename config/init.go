@@ -8,6 +8,7 @@ type AppConfig struct {
 	DbUser string
 	DbPass string
 	DbName string
+	Port   string
 }
 
 func getEnv(key, def string) string {
@@ -24,5 +25,6 @@ func Init() *AppConfig {
 		DbUser: getEnv("DB_USER", "user"),
 		DbPass: getEnv("DB_PASS", "password"),
 		DbName: getEnv("DB_NAME", "questions"),
+		Port:   getEnv("PORT", "8081"),
 	}
 }
