@@ -70,3 +70,20 @@ func (c *QuestionController) AddQuestion(w http.ResponseWriter, r *http.Request)
 		log.Printf("Error encoding JSON: %v", err)
 	}
 }
+
+// FindRandomQuestion godoc
+// @Summary Получить случайный вопрос
+// @Description Возвращает случайный вопрос из базы данных
+// @Tags questions
+// @Produce json
+// @Success 200 {object} domain.Question
+// @Router /questions/random [get]
+func (c *QuestionController) FindRandomQuestion(w http.ResponseWriter, r *http.Request) {
+	q, err := c.uc.FindRandomQuestion(r.Context())
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(q)
+}

@@ -21,7 +21,102 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/add-question": {
+        "/options/add-option": {
+            "post": {
+                "description": "Создает новый вариант ответа для вопроса",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "options"
+                ],
+                "summary": "Добавить новый вариант ответа",
+                "parameters": [
+                    {
+                        "description": "Объект варианта ответа",
+                        "name": "option",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_mobqom_questions_internal_dto.AddOptionDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Options"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/options/find-all": {
+            "get": {
+                "description": "Возвращает список всех вариантов ответов из базы данных",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "options"
+                ],
+                "summary": "Получить все варианты ответов",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Options"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/options/{questionId}": {
+            "get": {
+                "description": "Возвращает список всех вариантов ответов для конкретного вопроса",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "options"
+                ],
+                "summary": "Получить варианты ответов для вопроса",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID вопроса",
+                        "name": "questionId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Options"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/questions/add-question": {
             "post": {
                 "description": "Создает новый вопрос в базе данных",
                 "consumes": [
@@ -61,7 +156,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/find-all": {
+        "/questions/find-all": {
             "get": {
                 "description": "Возвращает список всех вопросов из базы данных",
                 "produces": [
@@ -83,9 +178,52 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/questions/random": {
+            "get": {
+                "description": "Возвращает случайный вопрос из базы данных",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "questions"
+                ],
+                "summary": "Получить случайный вопрос",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Question"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "github_com_mobqom_questions_internal_domain.Options": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "question_id": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "github_com_mobqom_questions_internal_domain.Question": {
             "type": "object",
             "properties": {
@@ -104,13 +242,38 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "options": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_mobqom_questions_internal_domain.Options"
+                    }
+                },
                 "updatedAt": {
                     "type": "string"
                 }
             }
         },
+        "github_com_mobqom_questions_internal_dto.AddOptionDto": {
+            "type": "object",
+            "required": [
+                "content",
+                "question_id"
+            ],
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "question_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "github_com_mobqom_questions_internal_dto.AddQuestionDto": {
             "type": "object",
+            "required": [
+                "content",
+                "game"
+            ],
             "properties": {
                 "content": {
                     "type": "string"
