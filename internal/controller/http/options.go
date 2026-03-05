@@ -1,4 +1,4 @@
-package http_controller
+package httpController
 
 import (
 	"encoding/json"
@@ -7,16 +7,18 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-playground/validator/v10"
 	"github.com/mobqom/questions/internal/dto"
 	"github.com/mobqom/questions/internal/usecase"
 )
 
 type OptionsController struct {
-	uc usecase.OptionsUseCase
+	uc       usecase.OptionsUseCase
+	validate *validator.Validate
 }
 
-func NewOptionsController(uc usecase.OptionsUseCase) *OptionsController {
-	return &OptionsController{uc: uc}
+func NewOptionsController(uc usecase.OptionsUseCase, validate *validator.Validate) *OptionsController {
+	return &OptionsController{uc: uc, validate: validate}
 }
 
 // FindAll godoc
@@ -78,8 +80,8 @@ func (c *OptionsController) AddOption(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if option.Content == "" || option.QuestionID == 0 {
-		http.Error(w, "Content and QuestionID are required", http.StatusBadRequest)
+	if err := c.validate.Struct(option); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 

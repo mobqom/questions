@@ -1,20 +1,22 @@
-package http_controller
+package httpController
 
 import (
 	"encoding/json"
 	"log"
 	"net/http"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/mobqom/questions/internal/dto"
 	"github.com/mobqom/questions/internal/usecase"
 )
 
 type QuestionController struct {
-	uc usecase.QuestionUseCase
+	uc       usecase.QuestionUseCase
+	validate *validator.Validate
 }
 
-func NewQuestionController(uc usecase.QuestionUseCase) *QuestionController {
-	return &QuestionController{uc: uc}
+func NewQuestionController(uc usecase.QuestionUseCase, validate *validator.Validate) *QuestionController {
+	return &QuestionController{uc: uc, validate: validate}
 }
 
 // FindAll godoc
@@ -51,8 +53,8 @@ func (c *QuestionController) AddQuestion(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	if question.Content == "" || question.Game == "" {
-		http.Error(w, "Content and Game are required", http.StatusBadRequest)
+	if err := c.validate.Struct(question); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 

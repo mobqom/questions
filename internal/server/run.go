@@ -12,10 +12,11 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-playground/validator/v10"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 
 	"github.com/mobqom/questions/config"
-	ctrl "github.com/mobqom/questions/internal/controller/http"
+	"github.com/mobqom/questions/internal/controller/http"
 	"github.com/mobqom/questions/internal/db"
 	"github.com/mobqom/questions/internal/repository"
 	"github.com/mobqom/questions/internal/usecase"
@@ -31,14 +32,16 @@ func Run(cfg *config.AppConfig) {
 	}
 	migrations.Init(dbConn)
 
+	validate := validator.New()
+
 	// Initialize layers
 	repo := repository.NewQuestionRepository(dbConn)
 	uc := usecase.NewQuestionUseCase(repo)
-	questionCtrl := ctrl.NewQuestionController(uc)
+	questionCtrl := httpController.NewQuestionController(uc, validate)
 
 	optRepo := repository.NewOptionsRepository(dbConn)
 	optUc := usecase.NewOptionsUseCase(optRepo)
-	optionsCtrl := ctrl.NewOptionsController(optUc)
+	optionsCtrl := httpController.NewOptionsController(optUc, validate)
 
 	r := chi.NewRouter()
 
@@ -49,7 +52,7 @@ func Run(cfg *config.AppConfig) {
 
 	// API routes
 	r.Route("/api/v1", func(r chi.Router) {
-		ctrl.RegisterRoutes(r, questionCtrl, optionsCtrl)
+		httpController.RegisterRoutes(r, questionCtrl, optionsCtrl)
 	})
 
 	addr := fmt.Sprintf(":%s", cfg.Port)

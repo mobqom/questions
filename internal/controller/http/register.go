@@ -1,4 +1,4 @@
-package http_controller
+package httpController
 
 import (
 	"github.com/go-chi/chi/v5"

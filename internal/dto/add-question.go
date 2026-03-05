@@ -1,6 +1,6 @@
 package dto
 
 type AddQuestionDto struct {
-	Content string `json:"content"`
-	Game    string `json:"game"`
+	Content string `json:"content" validate:"required"`
+	Game    string `json:"game" validate:"required"`
 }
