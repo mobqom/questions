@@ -26,7 +26,7 @@ func NewOptionsController(uc usecase.OptionsUseCase, validate *validator.Validat
 // @Description Возвращает список всех вариантов ответов из базы данных
 // @Tags options
 // @Produce json
-// @Success 200 {array} domain.Options
+// @Success 200 {array} domain.Option
 // @Router /options/find-all [get]
 func (c *OptionsController) FindAll(w http.ResponseWriter, r *http.Request) {
 	options, err := c.uc.FindAll(r.Context())
@@ -44,7 +44,7 @@ func (c *OptionsController) FindAll(w http.ResponseWriter, r *http.Request) {
 // @Tags options
 // @Produce json
 // @Param questionId path int true "ID вопроса"
-// @Success 200 {array} domain.Options
+// @Success 200 {array} domain.Option
 // @Router /options/{questionId} [get]
 func (c *OptionsController) FindByQuestionID(w http.ResponseWriter, r *http.Request) {
 	questionIDStr := chi.URLParam(r, "questionId")
@@ -70,7 +70,7 @@ func (c *OptionsController) FindByQuestionID(w http.ResponseWriter, r *http.Requ
 // @Accept json
 // @Produce json
 // @Param option body dto.AddOptionDto true "Объект варианта ответа"
-// @Success 201 {object} domain.Options
+// @Success 201 {object} domain.Option
 // @Failure 400 {string} string "Invalid request body"
 // @Router /options/add-option [post]
 func (c *OptionsController) AddOption(w http.ResponseWriter, r *http.Request) {

@@ -2,15 +2,17 @@ package domain
 
 import (
 	"context"
-
-	"gorm.io/gorm"
+	"time"
 )
 
 type Question struct {
-	gorm.Model
-	Content string    `gorm:"not null" json:"content"`
-	Game    string    `gorm:"type:varchar(255);not null;index" json:"game"`
-	Options []Options `gorm:"foreignKey:QuestionID" json:"options,omitzero"`
+	ID        uint       `json:"id"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+	DeletedAt *time.Time `json:"deleted_at,omitzero"`
+	Content   string     `json:"content"`
+	Game      string     `json:"game"`
+	Options   []Option   `json:"options,omitzero"`
 }
 
 type QuestionRepository interface {
