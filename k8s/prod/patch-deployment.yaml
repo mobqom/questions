@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: questions-deployment
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - name: questions
+          image: ghcr.io/your-org/questions:1.0.0

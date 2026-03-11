@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: questions-config
+data:
+  APP_ENV: "dev"
+  PORT: "8081"
+  GRPC_PORT: "50051"
+  DB_HOST: "postgres-dev-service"
+  DB_PORT: "5432"
+  DB_NAME: "questions"
+  DB_USER: "postgres"

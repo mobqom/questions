@@ -51,6 +51,25 @@ func Run(cfg *config.AppConfig) {
 
 	r := chi.NewRouter()
 
+	// Health checks
+	r.Get("/healthz", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("ok"))
+	})
+	r.Get("/readyz", func(w http.ResponseWriter, r *http.Request) {
+		if dbConn != nil {
+			sqlDB, err := dbConn.DB()
+			if err == nil {
+				if err := sqlDB.Ping(); err == nil {
+					w.WriteHeader(http.StatusOK)
+					w.Write([]byte("ok"))
+					return
+				}
+			}
+		}
+		w.WriteHeader(http.StatusServiceUnavailable)
+	})
+
 	// Swagger UI
 	r.Get("/swagger/*", httpSwagger.Handler(
 		httpSwagger.URL("/swagger/doc.json"),

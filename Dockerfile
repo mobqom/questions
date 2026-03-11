@@ -21,8 +21,8 @@ WORKDIR /app
 # Copy binary from builder
 COPY --from=builder /app/bin/app .
 
-# Expose port (based on internal/server/run.go)
-EXPOSE 8081
+# Expose ports
+EXPOSE 8081 50051
 
 # Run the binary
 CMD ["./app"]

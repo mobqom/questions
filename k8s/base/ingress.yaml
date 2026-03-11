@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: questions-ingress
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: api-questions.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: questions-service
+                port:
+                  name: http
