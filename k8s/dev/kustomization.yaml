@@ -11,6 +11,3 @@ patches:
   - path: patch-deployment.yaml
   - path: patch-ingress.yaml
 
-images:
-  - name: ghcr.io/mobqom/questions
-    newTag: dev-ed156b3
