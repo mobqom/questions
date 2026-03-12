@@ -13,4 +13,4 @@ patches:
 
 images:
   - name: ghcr.io/mobqom/questions
-    newTag: dev-d16edbe
+    newTag: dev-181a93e
