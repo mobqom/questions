@@ -20,15 +20,6 @@ spec:
               containerPort: 8081
             - name: grpc
               containerPort: 50051
-          envFrom:
-            - configMapRef:
-                name: questions-config
-          env:
-            - name: DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: questions-secret
-                  key: DB_PASS
           livenessProbe:
             httpGet:
               path: /healthz
