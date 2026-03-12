@@ -13,4 +13,4 @@ patches:
 
 images:
   - name: ghcr.io/mobqom/questions
-    newTag: dev-ddac365
+    newTag: dev-f26a66b
