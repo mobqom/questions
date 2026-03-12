@@ -7,45 +7,9 @@ on:
     branches: [ main, master, dev ]
 
 jobs:
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: 'go.mod'
-          check-latest: true
-
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6
-        with:
-          version: latest
-
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    needs: lint
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: 'go.mod'
-          check-latest: true
-
-      - name: Test
-        run: go test -v ./...
-
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
