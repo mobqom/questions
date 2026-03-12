@@ -8,4 +8,4 @@ spec:
     spec:
       containers:
         - name: questions
-          image: ghcr.io/your-org/questions:1.0.0-dev
+          image: ghcr.io/mobqom/questions:1.0.0-dev

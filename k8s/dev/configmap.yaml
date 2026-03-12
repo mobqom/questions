@@ -9,4 +9,4 @@ data:
   DB_HOST: "postgres-dev-service"
   DB_PORT: "5432"
   DB_NAME: "questions"
-  DB_USER: "postgres"
+  DB_USER: "POSTGRES"

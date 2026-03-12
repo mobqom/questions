@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: questions
-          image: ghcr.io/your-org/questions:latest
+          image: ghcr.io/mobqom/questions:latest
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
