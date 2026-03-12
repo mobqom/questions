@@ -9,3 +9,8 @@ spec:
       containers:
         - name: questions
           image: ghcr.io/mobqom/questions:1.0.0
+          env:
+            - name: DB_HOST
+              value: "postgres"
+            - name: DB_NAME
+              value: "questions_prod"
