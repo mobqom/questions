@@ -16,6 +16,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 	"google.golang.org/grpc"
+	"gorm.io/gorm"
 
 	"github.com/mobqom/questions/config"
 	grpcController "github.com/mobqom/questions/internal/controller/grpc"
@@ -32,9 +33,21 @@ import (
 )
 
 func Run(cfg *config.AppConfig) {
-	dbConn, err := db.Connection(cfg)
+	var dbConn *gorm.DB
+	var err error
+
+	// Retry connection to database
+	for i := range 10 {
+		dbConn, err = db.Connection(cfg)
+		if err == nil {
+			break
+		}
+		log.Printf("failed to connect to database (attempt %d/10): %v", i+1, err)
+		time.Sleep(2 * time.Second)
+	}
+
 	if err != nil {
-		log.Fatalf("failed to connect to database: %v", err)
+		log.Fatalf("could not connect to database after 10 attempts: %v", err)
 	}
 	migrations.Init(dbConn)
 
