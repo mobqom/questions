@@ -1,0 +1,15 @@
+#!/usr/bin/expect -f
+set timeout 60
+set keyfile [lindex $argv 0]
+set host [lindex $argv 1]
+set user [lindex $argv 2]
+set password [lindex $argv 3]
+
+spawn ssh-copy-id -i $keyfile -o StrictHostKeyChecking=no $user@$host
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    eof
+}

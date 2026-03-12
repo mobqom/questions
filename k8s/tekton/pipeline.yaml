@@ -1,0 +1,57 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: app-cicd-pipeline
+  namespace: tekton-pipelines
+spec:
+  description: >-
+    Полный цикл CI/CD: клонирование, сборка образа и деплой в dev или prod.
+  params:
+    - name: REPO_URL
+      description: URL репозитория.
+    - name: REPO_REVISION
+      description: Ветка или коммит.
+      default: main
+    - name: IMAGE
+      description: Имя образа.
+    - name: TARGET_NAMESPACE
+      description: Целевое пространство имен (dev/prod).
+  workspaces:
+    - name: shared-workspace
+  tasks:
+    - name: fetch-repository
+      taskRef:
+        name: git-clone
+        kind: ClusterTask # Стандартный таск в Tekton Hub
+      params:
+        - name: url
+          value: $(params.REPO_URL)
+        - name: revision
+          value: $(params.REPO_REVISION)
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+
+    - name: build-image
+      runAfter: [fetch-repository]
+      taskRef:
+        name: kaniko
+      params:
+        - name: IMAGE
+          value: $(params.IMAGE)
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+
+    - name: deploy-to-k8s
+      runAfter: [build-image]
+      taskRef:
+        name: deploy-kubectl
+      params:
+        - name: NAMESPACE
+          value: $(params.TARGET_NAMESPACE)
+        - name: IMAGE
+          value: $(params.IMAGE)
+      workspaces:
+        - name: source
+          workspace: shared-workspace

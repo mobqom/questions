@@ -1,0 +1,34 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: kaniko
+  namespace: tekton-pipelines
+spec:
+  description: >-
+    Эта задача собирает и пушит Docker-образ с использованием Kaniko.
+    Она не требует привилегированного режима (rootless).
+  params:
+    - name: IMAGE
+      description: Имя и тег для пуша.
+    - name: DOCKERFILE
+      description: Путь к Dockerfile.
+      default: ./Dockerfile
+    - name: CONTEXT
+      description: Путь к контексту сборки.
+      default: .
+  workspaces:
+    - name: source
+  steps:
+    - name: build-and-push
+      workingDir: $(workspaces.source.path)
+      image: gcr.io/kaniko-project/executor:latest
+      args:
+        - '--dockerfile=$(params.DOCKERFILE)'
+        - '--context=$(params.CONTEXT)'
+        - '--destination=$(params.IMAGE)'
+        - '--digest-file=$(results.IMAGE_DIGEST.path)'
+      # kaniko использует /kaniko/.docker/config.json для аутентификации в реестре.
+      # Вы можете пробросить секрет с помощью volumeMounts.
+  results:
+    - name: IMAGE_DIGEST
+      description: Дигест собранного образа.
