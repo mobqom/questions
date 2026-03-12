@@ -11,15 +11,15 @@ RUN go mod download
 COPY . .
 
 # Build the application
-RUN CGO_ENABLED=0 GOOS=linux go build -o /app/bin/app ./cmd/app/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o /bin/app ./cmd/app/main.go
 
 # Final stage
 FROM alpine:latest
 
-WORKDIR /app
+WORKDIR /bin
 
 # Copy binary from builder
-COPY --from=builder /app/bin/app .
+COPY --from=builder /bin/app .
 
 # Expose ports
 EXPOSE 8081 50051
