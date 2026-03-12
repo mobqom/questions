@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/mobqom/questions.git
+    repoURL: git@github.com:mobqom/questions.git
     targetRevision: main
     path: k8s/prod
   destination:
