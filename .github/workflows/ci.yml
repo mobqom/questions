@@ -49,3 +49,61 @@ jobs:
           context: .
           push: false
           tags: questions:${{ steps.vars.outputs.tag }}
+
+  deploy:
+    name: Deploy to Tekton
+    runs-on: ubuntu-latest
+    needs: docker
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set Environment
+        id: env
+        run: |
+          if [[ "${{ github.ref_name }}" == "main" || "${{ github.ref_name }}" == "master" ]]; then
+            echo "ns=prod" >> $GITHUB_OUTPUT
+            echo "kustomize=k8s/prod" >> $GITHUB_OUTPUT
+            echo "tag=latest" >> $GITHUB_OUTPUT
+          else
+            echo "ns=dev" >> $GITHUB_OUTPUT
+            echo "kustomize=k8s/dev" >> $GITHUB_OUTPUT
+            echo "tag=dev" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Trigger Tekton Pipeline
+        # В реальном сценарии здесь может быть curl к Tekton EventListener или использование tkn CLI
+        # Для примера покажем создание PipelineRun через kubectl (требует настроенного kubeconfig)
+        run: |
+          echo "Triggering Tekton Pipeline for ${{ steps.env.outputs.ns }} namespace"
+          # Примечание: В GitHub Actions должны быть настроены SECRETS для доступа к кластеру
+          # kubectl apply -f - <<EOF
+          # apiVersion: tekton.dev/v1beta1
+          # kind: PipelineRun
+          # metadata:
+          #   generateName: questions-deploy-
+          # spec:
+          #   pipelineRef:
+          #     name: ci-cd-pipeline
+          #   params:
+          #     - name: repo-url
+          #       value: ${{ github.event.repository.clone_url }}
+          #     - name: revision
+          #       value: ${{ github.sha }}
+          #     - name: image-name
+          #       value: questions:${{ steps.env.outputs.tag }}
+          #     - name: kustomize-path
+          #       value: ${{ steps.env.outputs.kustomize }}
+          #     - name: namespace
+          #       value: ${{ steps.env.outputs.ns }}
+          #   workspaces:
+          #     - name: shared-workspace
+          #       volumeClaimTemplate:
+          #         spec:
+          #           accessModes:
+          #             - ReadWriteOnce
+          #           resources:
+          #             requests:
+          #               storage: 1Gi
+          # EOF
