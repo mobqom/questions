@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: questions-app
+  labels:
+    app: questions
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: questions
+  template:
+    metadata:
+      labels:
+        app: questions
+    spec:
+      containers:
+        - name: questions
+          image: ghcr.io/mobqom/questions:latest
+          ports:
+            - containerPort: 8081
+              name: http
+            - containerPort: 50051
+              name: grpc
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: questions-config
+                  key: db_host
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: questions-config
+                  key: db_port
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: questions-config
+                  key: db_name
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: questions-db-secret
+                  key: db_user
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: questions-db-secret
+                  key: db_pass
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi

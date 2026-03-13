@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: questions-config
+data:
+  db_host: "questions-db-service"
+  db_port: "5432"
+  db_name: "questions"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: questions-db-secret
+type: Opaque
+stringData:
+  db_user: "user"
+  db_pass: "password"
