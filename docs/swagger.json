@@ -46,7 +46,7 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/domain.Options"
+                            "$ref": "#/definitions/domain.Option"
                         }
                     },
                     "400": {
@@ -74,7 +74,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/domain.Options"
+                                "$ref": "#/definitions/domain.Option"
                             }
                         }
                     }
@@ -106,7 +106,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/domain.Options"
+                                "$ref": "#/definitions/domain.Option"
                             }
                         }
                     }
@@ -239,17 +239,17 @@
         }
     },
     "definitions": {
-        "domain.Options": {
+        "domain.Option": {
             "type": "object",
             "properties": {
                 "content": {
                     "type": "string"
                 },
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
+                "deleted_at": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -257,7 +257,7 @@
                 "question_id": {
                     "type": "integer"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -268,11 +268,11 @@
                 "content": {
                     "type": "string"
                 },
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
+                "deleted_at": {
+                    "type": "string"
                 },
                 "game": {
                     "type": "string"
@@ -283,10 +283,10 @@
                 "options": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/domain.Options"
+                        "$ref": "#/definitions/domain.Option"
                     }
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -318,18 +318,6 @@
                 },
                 "game": {
                     "type": "string"
-                }
-            }
-        },
-        "gorm.DeletedAt": {
-            "type": "object",
-            "properties": {
-                "time": {
-                    "type": "string"
-                },
-                "valid": {
-                    "description": "Valid is true if Time is not NULL",
-                    "type": "boolean"
                 }
             }
         }

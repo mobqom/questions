@@ -49,7 +49,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/domain.Options"
+                            "$ref": "#/definitions/domain.Option"
                         }
                     },
                     "400": {
@@ -77,7 +77,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/domain.Options"
+                                "$ref": "#/definitions/domain.Option"
                             }
                         }
                     }
@@ -109,7 +109,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/domain.Options"
+                                "$ref": "#/definitions/domain.Option"
                             }
                         }
                     }
@@ -242,17 +242,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "domain.Options": {
+        "domain.Option": {
             "type": "object",
             "properties": {
                 "content": {
                     "type": "string"
                 },
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
+                "deleted_at": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -260,7 +260,7 @@ const docTemplate = `{
                 "question_id": {
                     "type": "integer"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -271,11 +271,11 @@ const docTemplate = `{
                 "content": {
                     "type": "string"
                 },
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
+                "deleted_at": {
+                    "type": "string"
                 },
                 "game": {
                     "type": "string"
@@ -286,10 +286,10 @@ const docTemplate = `{
                 "options": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/domain.Options"
+                        "$ref": "#/definitions/domain.Option"
                     }
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -321,18 +321,6 @@ const docTemplate = `{
                 },
                 "game": {
                     "type": "string"
-                }
-            }
-        },
-        "gorm.DeletedAt": {
-            "type": "object",
-            "properties": {
-                "time": {
-                    "type": "string"
-                },
-                "valid": {
-                    "description": "Valid is true if Time is not NULL",
-                    "type": "boolean"
                 }
             }
         }

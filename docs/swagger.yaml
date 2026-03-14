@@ -2,38 +2,38 @@ basePath: /api/v1
 consumes:
 - application/json
 definitions:
-  domain.Options:
+  domain.Option:
     properties:
       content:
         type: string
-      createdAt:
+      created_at:
         type: string
-      deletedAt:
-        $ref: '#/definitions/gorm.DeletedAt'
+      deleted_at:
+        type: string
       id:
         type: integer
       question_id:
         type: integer
-      updatedAt:
+      updated_at:
         type: string
     type: object
   domain.Question:
     properties:
       content:
         type: string
-      createdAt:
+      created_at:
         type: string
-      deletedAt:
-        $ref: '#/definitions/gorm.DeletedAt'
+      deleted_at:
+        type: string
       game:
         type: string
       id:
         type: integer
       options:
         items:
-          $ref: '#/definitions/domain.Options'
+          $ref: '#/definitions/domain.Option'
         type: array
-      updatedAt:
+      updated_at:
         type: string
     type: object
   dto.AddOptionDto:
@@ -55,14 +55,6 @@ definitions:
     required:
     - content
     - game
-    type: object
-  gorm.DeletedAt:
-    properties:
-      time:
-        type: string
-      valid:
-        description: Valid is true if Time is not NULL
-        type: boolean
     type: object
 host: localhost:8081
 info:
@@ -87,7 +79,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/domain.Options'
+              $ref: '#/definitions/domain.Option'
             type: array
       summary: Получить варианты ответов для вопроса
       tags:
@@ -110,7 +102,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/domain.Options'
+            $ref: '#/definitions/domain.Option'
         "400":
           description: Invalid request body
           schema:
@@ -128,7 +120,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/domain.Options'
+              $ref: '#/definitions/domain.Option'
             type: array
       summary: Получить все варианты ответов
       tags:
