@@ -18,6 +18,8 @@ FROM alpine:latest
 
 WORKDIR /bin
 
+ENV HOST=0.0.0.0
+
 # Copy binary from builder
 COPY --from=builder /bin/app .
 
