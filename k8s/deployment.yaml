@@ -20,7 +20,7 @@ spec:
         - name: questions
           image: ghcr.io/mobqom/questions:latest
           ports:
-            - containerPort: 8081
+            - containerPort: 8080
               name: http
             - containerPort: 50051
               name: grpc

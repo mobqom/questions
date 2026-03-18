@@ -3,7 +3,7 @@ package main
 // @title Questions API
 // @version 1.0
 // @description API для работы с вопросами
-// @host localhost:8081
+// @host localhost:8080
 // @BasePath /api/v1
 // @schemes http
 // @accept json

@@ -19,12 +19,13 @@ FROM alpine:latest
 WORKDIR /bin
 
 ENV HOST=0.0.0.0
+ENV PORT=8080
 
 # Copy binary from builder
 COPY --from=builder /bin/app .
 
 # Expose ports
-EXPOSE 8081 50051
+EXPOSE 8080 50051
 
 # Run the binary
 CMD ["./app"]

@@ -26,7 +26,7 @@ func Init() *AppConfig {
 		DbUser:   getEnv("DB_USER", "user"),
 		DbPass:   getEnv("DB_PASS", "password"),
 		DbName:   getEnv("DB_NAME", "questions"),
-		Port:     getEnv("PORT", "8081"),
+		Port:     getEnv("PORT", "8080"),
 		GrpcPort: getEnv("GRPC_PORT", "50051"),
 	}
 }
