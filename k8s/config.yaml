@@ -13,5 +13,5 @@ metadata:
   name: questions-db-secret
 type: Opaque
 stringData:
-  db_user: "postgres"
-  db_pass: "postgres"
+  db_user: "user"
+  db_pass: "password"
