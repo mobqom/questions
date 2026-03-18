@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: questions-config
 data:
-  db_host: "postgres-postgresql-0"
+  db_host: "questions-db-service"
   db_port: "5432"
   db_name: "questions"
 ---
