@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: questions-config
 data:
-  db_host: "questions-db-service"
+  db_host: "postgres"
   db_port: "5432"
   db_name: "questions"
 ---
@@ -13,5 +13,5 @@ metadata:
   name: questions-db-secret
 type: Opaque
 stringData:
-  db_user: "user"
-  db_pass: "password"
+  db_user: "postgres"
+  db_pass: "postgres"
