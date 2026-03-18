@@ -88,10 +88,7 @@ func Run(cfg *config.AppConfig) {
 		httpSwagger.URL("/swagger/doc.json"),
 	))
 
-	// API routes
-	r.Route("/api/v1", func(r chi.Router) {
-		httpController.RegisterRoutes(r, questionCtrl, optionsCtrl)
-	})
+	httpController.RegisterRoutes(r, questionCtrl, optionsCtrl)
 
 	// gRPC Server
 	grpcSrv := grpc.NewServer()
