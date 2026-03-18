@@ -16,6 +16,27 @@ spec:
     spec:
       imagePullSecrets:
         - name: ghcr-secret
+      initContainers:
+        - name: wait-for-db
+          image: postgres:17-alpine
+          command: ["sh", "-c"]
+          args:
+            - |
+              until pg_isready -h questions-db-service -p 5432 -U "$DB_USER" -d "$DB_NAME"; do
+                echo "waiting for db...";
+                sleep 2;
+              done
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: questions-db-secret
+                  key: db_user
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: questions-config
+                  key: db_name
       containers:
         - name: questions
           image: ghcr.io/mobqom/questions:latest
