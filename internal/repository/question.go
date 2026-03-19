@@ -12,7 +12,7 @@ type QuestionModel struct {
 	gorm.Model
 	Content string        `gorm:"not null"`
 	Game    string        `gorm:"type:varchar(255);not null;index"`
-	Type    string        `gorm:"type:varchar(255);not null;index"`
+	Type    string        `gorm:"type:varchar(255);not null;index;default:'simple'"`
 	Options []OptionModel `gorm:"foreignKey:QuestionID"`
 }
 
