@@ -5,9 +5,6 @@
     "produces": [
         "application/json"
     ],
-    "schemes": [
-        "http"
-    ],
     "swagger": "2.0",
     "info": {
         "description": "API для работы с вопросами",
@@ -15,7 +12,6 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:8080",
     "basePath": "/api/v1",
     "paths": {
         "/options/add-option": {
