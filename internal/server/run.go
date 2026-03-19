@@ -83,14 +83,13 @@ func Run(cfg *config.AppConfig) {
 		w.WriteHeader(http.StatusServiceUnavailable)
 	})
 
-	// Swagger UI
-	r.Get("/swagger/*", httpSwagger.Handler(
-		httpSwagger.URL("/swagger/doc.json"),
-	))
-
 	// API routes
-	r.Route("/api/v1", func(r chi.Router) {
+	r.Route("/api/questions", func(r chi.Router) {
 		httpController.RegisterRoutes(r, questionCtrl, optionsCtrl)
+		// Swagger UI
+		r.Get("/swagger/*", httpSwagger.Handler(
+			httpSwagger.URL("/swagger/doc.json"),
+		))
 	})
 
 	// gRPC Server
