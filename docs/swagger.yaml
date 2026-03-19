@@ -195,13 +195,25 @@ paths:
         name: gameId
         required: true
         type: string
+      - description: Тип вопроса
+        in: query
+        name: type
+        required: true
+        type: string
+      - description: Количество вопросов
+        in: query
+        name: count
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Question'
+            items:
+              $ref: '#/definitions/domain.Question'
+            type: array
       summary: Получить случайный вопрос
       tags:
       - questions

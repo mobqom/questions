@@ -228,13 +228,30 @@ const docTemplate = `{
                         "name": "gameId",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Тип вопроса",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Количество вопросов",
+                        "name": "count",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Question"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.Question"
+                            }
                         }
                     }
                 }

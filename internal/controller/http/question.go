@@ -78,7 +78,9 @@ func (c *QuestionController) AddQuestion(w http.ResponseWriter, r *http.Request)
 // @Tags questions
 // @Produce json
 // @Param gameId query string true "ID игры"
-// @Success 200 {object} domain.Question
+// @Param type query string true "Тип вопроса"
+// @Param count query int true "Количество вопросов"
+// @Success 200 {array} domain.Question
 // @Router /questions/random [get]
 func (c *QuestionController) FindRandomQuestionListByGameId(w http.ResponseWriter, r *http.Request) {
 	gameId := r.URL.Query().Get("gameId")
@@ -91,8 +93,8 @@ func (c *QuestionController) FindRandomQuestionListByGameId(w http.ResponseWrite
 	}
 
 	count, err := strconv.Atoi(countStr)
-	if err != nil || count < 1 || count > 3 {
-		http.Error(w, "Invalid count parameter (must be numeric 1-3)", http.StatusBadRequest)
+	if err != nil {
+		http.Error(w, "Invalid count parameter (must be numeric)", http.StatusBadRequest)
 		return
 	}
 
