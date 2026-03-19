@@ -83,12 +83,11 @@ func Run(cfg *config.AppConfig) {
 		w.WriteHeader(http.StatusServiceUnavailable)
 	})
 
-	// API routes
 	r.Route("/api/questions", func(r chi.Router) {
 		httpController.RegisterRoutes(r, questionCtrl, optionsCtrl)
 		// Swagger UI
-		r.Get("/swagger/*", httpSwagger.Handler(
-			httpSwagger.URL("/swagger/doc.json"),
+		r.Get("/api/swagger/*", httpSwagger.Handler(
+			httpSwagger.URL("/api/swagger/doc.json"),
 		))
 	})
 
