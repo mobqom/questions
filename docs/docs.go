@@ -331,7 +331,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "",
-	BasePath:         "/api/v1",
+	BasePath:         "/api/questions",
 	Schemes:          []string{},
 	Title:            "Questions API",
 	Description:      "API для работы с вопросами",
