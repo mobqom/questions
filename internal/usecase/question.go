@@ -10,7 +10,7 @@ import (
 type QuestionUseCase interface {
 	FindAll(ctx context.Context) ([]domain.Question, error)
 	AddQuestion(ctx context.Context, question dto.AddQuestionDto) (domain.Question, error)
-	FindRandomQuestion(ctx context.Context, gameId string) (*domain.Question, error)
+	FindRandomQuestionListByGameId(ctx context.Context, gameId string, qType string, count int) ([]domain.Question, error)
 	FindByGameId(ctx context.Context, gameId string) ([]domain.Question, error)
 }
 
@@ -38,8 +38,8 @@ func (u *questionUseCase) AddQuestion(ctx context.Context, question dto.AddQuest
 	return q, nil
 }
 
-func (u *questionUseCase) FindRandomQuestion(ctx context.Context, gameId string) (*domain.Question, error) {
-	return u.repo.FindRandomQuestion(ctx, gameId)
+func (u *questionUseCase) FindRandomQuestionListByGameId(ctx context.Context, gameId string, qType string, count int) ([]domain.Question, error) {
+	return u.repo.FindRandomQuestionListByGameId(ctx, gameId, qType, count)
 }
 func (u *questionUseCase) FindByGameId(ctx context.Context, gameId string) ([]domain.Question, error) {
 	return u.repo.FindByGameId(ctx, gameId)

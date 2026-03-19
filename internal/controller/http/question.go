@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/mobqom/questions/internal/dto"
@@ -71,7 +72,7 @@ func (c *QuestionController) AddQuestion(w http.ResponseWriter, r *http.Request)
 	}
 }
 
-// FindRandomQuestion godoc
+// FindRandomQuestionListByGameId godoc
 // @Summary Получить случайный вопрос
 // @Description Возвращает случайный вопрос из базы данных
 // @Tags questions
@@ -79,14 +80,24 @@ func (c *QuestionController) AddQuestion(w http.ResponseWriter, r *http.Request)
 // @Param gameId query string true "ID игры"
 // @Success 200 {object} domain.Question
 // @Router /questions/random [get]
-func (c *QuestionController) FindRandomQuestion(w http.ResponseWriter, r *http.Request) {
-	gameId := r.URL.Query().Get("gameId")
-	if gameId == "" {
-		http.Error(w, "gameId is required", http.StatusBadRequest)
+func (c *QuestionController) FindRandomQuestionListByGameId(w http.ResponseWriter, r *http.Request) {
+	params := dto.QuestionQueryParams{
+		GameID: r.URL.Query().Get("gameId"),
+		Type:   r.URL.Query().Get("type"),
+		Count:  r.URL.Query().Get("count"),
+	}
+
+	if err := c.validate.Struct(params); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	q, err := c.uc.FindRandomQuestion(r.Context(), gameId)
+	// Если в UseCase нужен именно int, конвертируем после валидации
+	count, _ := strconv.Atoi(params.Count)
+	_ = count // Использование в зависимости от логики
+
+	// В данном случае FindRandomQuestion принимает только gameId
+	q, err := c.uc.FindRandomQuestionListByGameId(r.Context(), params.GameID, params.Type, count)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -104,13 +115,16 @@ func (c *QuestionController) FindRandomQuestion(w http.ResponseWriter, r *http.R
 // @Success 200 {array} domain.Question
 // @Router /questions/find-by-game [get]
 func (c *QuestionController) FindByGameId(w http.ResponseWriter, r *http.Request) {
-	gameId := r.URL.Query().Get("gameId")
-	if gameId == "" {
-		http.Error(w, "gameId is required", http.StatusBadRequest)
+	params := dto.QuestionQueryParams{
+		GameID: r.URL.Query().Get("gameId"),
+	}
+
+	if err := c.validate.Struct(params); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	questions, err := c.uc.FindByGameId(r.Context(), gameId)
+	questions, err := c.uc.FindByGameId(r.Context(), params.GameID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
