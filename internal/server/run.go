@@ -88,7 +88,7 @@ func Run(cfg *config.AppConfig) {
 		httpController.RegisterRoutes(r, questionCtrl, optionsCtrl)
 		// Swagger UI
 		r.Get("/swagger/*", httpSwagger.Handler(
-			httpSwagger.URL("/swagger/doc.json"),
+			httpSwagger.URL("/api/questions/swagger/doc.json"),
 		))
 	})
 
