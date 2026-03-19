@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -15,19 +14,14 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-playground/validator/v10"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
-	"google.golang.org/grpc"
 	"gorm.io/gorm"
 
 	"github.com/mobqom/questions/config"
-	grpcController "github.com/mobqom/questions/internal/controller/grpc"
 	httpController "github.com/mobqom/questions/internal/controller/http"
 	"github.com/mobqom/questions/internal/db"
 	"github.com/mobqom/questions/internal/repository"
 	"github.com/mobqom/questions/internal/usecase"
 	"github.com/mobqom/questions/migrations"
-	optionsv1 "github.com/mobqom/questions/proto/v1/option"
-	questionv1 "github.com/mobqom/questions/proto/v1/question"
-	"google.golang.org/grpc/reflection"
 
 	_ "github.com/mobqom/questions/docs"
 )
@@ -92,22 +86,10 @@ func Run(cfg *config.AppConfig) {
 		))
 	})
 
-	// gRPC Server
-	grpcSrv := grpc.NewServer()
-	questionv1.RegisterQuestionServiceServer(grpcSrv, grpcController.NewQuestionServer(uc))
-	optionsv1.RegisterOptionsServiceServer(grpcSrv, grpcController.NewOptionsServer(ucOpt))
-	reflection.Register(grpcSrv)
-
 	addr := fmt.Sprintf(":%s", cfg.Port)
 	srv := &http.Server{
 		Addr:    addr,
 		Handler: r,
-	}
-
-	grpcAddr := fmt.Sprintf(":%s", cfg.GrpcPort)
-	lis, err := net.Listen("tcp", grpcAddr)
-	if err != nil {
-		log.Fatalf("failed to listen for gRPC: %v", err)
 	}
 
 	// Server run context
@@ -130,7 +112,6 @@ func Run(cfg *config.AppConfig) {
 		}()
 
 		// Trigger graceful shutdown
-		grpcSrv.GracefulStop()
 		err := srv.Shutdown(shutdownCtx)
 		if err != nil {
 			log.Fatal(err)
@@ -142,13 +123,6 @@ func Run(cfg *config.AppConfig) {
 	go func() {
 		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Fatalf("http server failed to start: %v", err)
-		}
-	}()
-
-	log.Printf("gRPC Server starting on %s", grpcAddr)
-	go func() {
-		if err := grpcSrv.Serve(lis); err != nil {
-			log.Fatalf("gRPC server failed to start: %v", err)
 		}
 	}()
 

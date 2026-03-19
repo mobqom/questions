@@ -25,7 +25,7 @@ ENV PORT=8080
 COPY --from=builder /bin/app .
 
 # Expose ports
-EXPOSE 8080 50051
+EXPOSE 8080
 
 # Run the binary
 CMD ["./app"]
