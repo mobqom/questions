@@ -81,23 +81,22 @@ func (c *QuestionController) AddQuestion(w http.ResponseWriter, r *http.Request)
 // @Success 200 {object} domain.Question
 // @Router /questions/random [get]
 func (c *QuestionController) FindRandomQuestionListByGameId(w http.ResponseWriter, r *http.Request) {
-	params := dto.QuestionQueryParams{
-		GameID: r.URL.Query().Get("gameId"),
-		Type:   r.URL.Query().Get("type"),
-		Count:  r.URL.Query().Get("count"),
-	}
+	gameId := r.URL.Query().Get("gameId")
+	qType := r.URL.Query().Get("type")
+	countStr := r.URL.Query().Get("count")
 
-	if err := c.validate.Struct(params); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+	if gameId == "" || qType == "" || countStr == "" {
+		http.Error(w, "Missing required query parameters", http.StatusBadRequest)
 		return
 	}
 
-	// Если в UseCase нужен именно int, конвертируем после валидации
-	count, _ := strconv.Atoi(params.Count)
-	_ = count // Использование в зависимости от логики
+	count, err := strconv.Atoi(countStr)
+	if err != nil || count < 1 || count > 3 {
+		http.Error(w, "Invalid count parameter (must be numeric 1-3)", http.StatusBadRequest)
+		return
+	}
 
-	// В данном случае FindRandomQuestion принимает только gameId
-	q, err := c.uc.FindRandomQuestionListByGameId(r.Context(), params.GameID, params.Type, count)
+	q, err := c.uc.FindRandomQuestionListByGameId(r.Context(), gameId, qType, count)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -115,16 +114,14 @@ func (c *QuestionController) FindRandomQuestionListByGameId(w http.ResponseWrite
 // @Success 200 {array} domain.Question
 // @Router /questions/find-by-game [get]
 func (c *QuestionController) FindByGameId(w http.ResponseWriter, r *http.Request) {
-	params := dto.QuestionQueryParams{
-		GameID: r.URL.Query().Get("gameId"),
-	}
+	gameId := r.URL.Query().Get("gameId")
 
-	if err := c.validate.Struct(params); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+	if gameId == "" {
+		http.Error(w, "gameId is required", http.StatusBadRequest)
 		return
 	}
 
-	questions, err := c.uc.FindByGameId(r.Context(), params.GameID)
+	questions, err := c.uc.FindByGameId(r.Context(), gameId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
