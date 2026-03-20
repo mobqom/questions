@@ -8,14 +8,11 @@ package main
 // @produce json
 
 import (
-	"fmt"
-
 	"github.com/mobqom/questions/config"
 	"github.com/mobqom/questions/internal/server"
 )
 
 func main() {
-	fmt.Println("Starting server...")
 	cfg := config.Init()
 	server.Run(cfg)
 }
